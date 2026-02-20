@@ -408,7 +408,7 @@ const EVENTS = [
         org: "IDARA (IIS Galicia Sur / SERGAS)",
         location: "Pontevedra",
         type: "charla",
-        desc: "Formaci\u00f3n de media jornada al equipo de investigaci\u00f3n IDARA. Parte te\u00f3rica: framework AI Workslop, documentaci\u00f3n zombie, 5 palancas de contexto.",
+        desc: "Formaci\u00f3n de media jornada al equipo de investigaci\u00f3n IDARA. Arquitectura de contexto, gobernanza del conocimiento y agentes de IA.",
         role: "Docente"
     },
     {
@@ -512,16 +512,30 @@ function renderEvents(filter) {
 
     if (upcoming.length) {
         container.innerHTML += '<div class="section-title">Pr\u00f3ximos</div>';
-        upcoming.forEach(e => container.innerHTML += renderCard(e, false));
+        renderWithMonths(upcoming, false, container);
     }
     if (past.length) {
         container.innerHTML += '<div class="section-title">Realizados</div>';
-        past.reverse().forEach(e => container.innerHTML += renderCard(e, true));
+        past.reverse();
+        renderWithMonths(past, true, container);
         past.reverse();
     }
     if (!upcoming.length && !past.length) {
         container.innerHTML = '<p style="text-align:center;color:#999;padding:3rem;">No hay eventos de este tipo.</p>';
     }
+}
+
+function renderWithMonths(events, isPast, container) {
+    let lastMonth = "";
+    events.forEach(e => {
+        const d = parseDate(e.date);
+        const key = MONTHS_FULL[d.getMonth()].charAt(0).toUpperCase() + MONTHS_FULL[d.getMonth()].slice(1) + " " + d.getFullYear();
+        if (key !== lastMonth) {
+            container.innerHTML += `<div style="font-size:0.75rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1.5px;margin:1.5rem 0 0.5rem;padding-left:0.2rem;">${key}</div>`;
+            lastMonth = key;
+        }
+        container.innerHTML += renderCard(e, isPast);
+    });
 }
 
 function renderCard(e, isPast) {
