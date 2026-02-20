@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formaciones y eventos — María García-Puente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #1a6bab;
+            --blue-dark: #0d4f8b;
+            --blue-light: #e8f4fd;
+            --teal: #38b6a0;
+            --green: #6dba3a;
+            --orange: #e67e22;
+            --purple: #8e44ad;
+            --red: #c0392b;
+            --pink: #e84393;
+            --bg: #f8f9fa;
+            --text: #2c3e50;
+            --text-light: #666;
+            --card-bg: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            color: white;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+        .header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+        .header h1 a:hover {
+            text-decoration: underline;
+        }
+        .header .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        .header .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        .header .stat {
+            text-align: center;
+        }
+        .header .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+        }
+        .header .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        /* ── Filters ── */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1.5rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .filter-btn {
+            padding: 0.4rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+        .filter-btn.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: white;
+        }
+
+        /* ── Main ── */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* ── Section ── */
+        .section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--blue);
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--blue-light);
+        }
+
+        /* ── Cards ── */
+        .event-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .event-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .event-card.past {
+            opacity: 0.85;
+        }
+
+        .event-date {
+            min-width: 55px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .event-date .day {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--blue);
+            line-height: 1;
+        }
+        .event-date .month {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .event-date .year {
+            font-size: 0.6rem;
+            color: #aaa;
+        }
+
+        .event-body {
+            flex: 1;
+        }
+        .event-body h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .event-meta {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.4rem;
+        }
+        .event-meta span + span::before {
+            content: " · ";
+        }
+        .event-desc {
+            font-size: 0.78rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        /* ── Badges ── */
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.3rem;
+        }
+        .badge-curso { background: #e8f4fd; color: var(--blue); }
+        .badge-taller { background: #e8f8f0; color: var(--teal); }
+        .badge-charla { background: #fdf2e8; color: var(--orange); }
+        .badge-congreso { background: #f4e8fd; color: var(--purple); }
+        .badge-master { background: #fde8f0; color: var(--pink); }
+        .badge-mesa { background: #fdeae8; color: var(--red); }
+        .badge-jornada { background: #f0fde8; color: #2d8a2d; }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            border-top: 1px solid #e0e0e0;
+            margin-top: 2rem;
+        }
+        .footer a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ── Hidden ── */
+        .hidden { display: none !important; }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5rem; }
+            .event-card { flex-direction: column; gap: 0.5rem; }
+            .event-date { display: flex; gap: 0.5rem; align-items: baseline; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1><a href="https://www.linkedin.com/in/mariagps/" target="_blank">Mar&iacute;a Garc&iacute;a-Puente</a></h1>
+    <div class="subtitle">Especialista en gesti&oacute;n del conocimiento e IA &middot; Directora de AlterBiblio &middot; Creadora de SAMBA</div>
+    <div class="stats">
+        <div class="stat">
+            <span class="stat-number" id="stat-total">0</span>
+            <span class="stat-label">Eventos</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number" id="stat-upcoming">0</span>
+            <span class="stat-label">Pr&oacute;ximos</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number" id="stat-orgs">0</span>
+            <span class="stat-label">Organizaciones</span>
+        </div>
+    </div>
+</div>
+
+<div class="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="curso">Cursos</button>
+    <button class="filter-btn" data-filter="taller">Talleres</button>
+    <button class="filter-btn" data-filter="master">M&aacute;sters</button>
+    <button class="filter-btn" data-filter="charla">Charlas</button>
+    <button class="filter-btn" data-filter="congreso">Congresos</button>
+    <button class="filter-btn" data-filter="mesa">Mesas redondas</button>
+    <button class="filter-btn" data-filter="jornada">Jornadas</button>
+</div>
+
+<div class="main" id="events-container">
+</div>
+
+<div class="footer">
+    <a href="https://www.linkedin.com/in/mariagps/" target="_blank">LinkedIn</a> &middot;
+    <a href="mailto:maria@alterbiblio.com">maria@alterbiblio.com</a> &middot;
+    <a href="https://alterbiblio.com" target="_blank">AlterBiblio</a>
+</div>
+
+<script>
+const EVENTS = [
+    // ── ENERO 2026 ──
+    {
+        date: "2026-01-20",
+        title: "Retos de la IA en la evaluaci\u00f3n, comunicaci\u00f3n e integridad cient\u00edfica",
+        org: "Comit\u00e9 Espa\u00f1ol de \u00c9tica de la Investigaci\u00f3n (CEEI)",
+        location: "Madrid",
+        type: "jornada",
+        desc: "Jornada sobre fraude cient\u00edfico, IA en evaluaci\u00f3n e integridad en la investigaci\u00f3n. 310 participantes.",
+        role: "Asistente"
+    },
+    {
+        date: "2026-01-23",
+        dateEnd: "2026-01-24",
+        title: "Estrategias para publicar art\u00edculos cient\u00edficos y nuevas tecnolog\u00edas",
+        org: "Ferring Pharmaceuticals",
+        location: "Madrid",
+        type: "curso",
+        desc: "Curso presencial de 2 d\u00edas sobre estrategias de publicaci\u00f3n y nuevas tecnolog\u00edas para investigadores. Co-impartido con Jos\u00e9 Mar\u00eda Mor\u00e1n (UEx).",
+        role: "Docente"
+    },
+    {
+        date: "2025-11-01",
+        title: "M\u00e1ster Universitat de Barcelona \u2014 Sesi\u00f3n IA",
+        org: "Universitat de Barcelona",
+        location: "Online",
+        type: "master",
+        desc: "Clase como docente invitada en el m\u00e1ster de la UB sobre inteligencia artificial aplicada.",
+        role: "Docente invitada"
+    },
+
+    // ── FEBRERO 2026 ──
+    {
+        date: "2026-02-02",
+        dateEnd: "2026-02-03",
+        title: "Formaci\u00f3n para revisores de art\u00edculos cient\u00edficos",
+        org: "RESED (Revista SED)",
+        location: "Online",
+        type: "curso",
+        desc: "Curso online de 2 sesiones (2,5h cada una) para revisores de la Revista de la Sociedad Espa\u00f1ola de Dolor.",
+        role: "Organizadora"
+    },
+    {
+        date: "2026-02-12",
+        title: "Entrevista con Juan Turnes",
+        org: "IDARA (IIS Galicia Sur)",
+        location: "Online",
+        type: "charla",
+        desc: "Entrevista grabada para la serie de v\u00eddeos de IDARA. Tema: flujo de trabajo con IA (SAMBA, CCO).",
+        role: "Entrevistada"
+    },
+    {
+        date: "2026-02-14",
+        title: "Herramientas de IA para b\u00fasqueda bibliogr\u00e1fica y redacci\u00f3n cient\u00edfica",
+        org: "43\u00ba Congreso Sociedad Valenciana de Nefrolog\u00eda",
+        location: "Castell\u00f3n",
+        type: "mesa",
+        types: ["mesa", "congreso"],
+        desc: "Mesa redonda de 30 min con moderador (Dr. David Ramos). Herramientas: OpenEvidence, Consensus, ChatGPT, Elicit, Deep Research, NotebookLM, Research Rabbit, Scite.ai.",
+        role: "Ponente"
+    },
+    {
+        date: "2026-02-18",
+        title: "Jornada IA ASD",
+        org: "ASD",
+        location: "Presencial",
+        type: "jornada",
+        desc: "Jornada completa sobre inteligencia artificial (09:00-15:00).",
+        role: "Asistente"
+    },
+    {
+        date: "2026-02-20",
+        dateEnd: "2026-02-21",
+        title: "Taller IA \u2014 Oncology SeeDS",
+        org: "Daiichi Sankyo",
+        location: "Valencia",
+        type: "taller",
+        desc: "Taller pr\u00e1ctico de IA para onc\u00f3logos (~60 asistentes, 3 rotaciones). Caso pr\u00e1ctico de consulta \u2192 pregunta de investigaci\u00f3n \u2192 b\u00fasqueda \u2192 extracci\u00f3n \u2192 output con ChatGPT, OpenEvidence, Elicit y NotebookLM.",
+        role: "Facilitadora"
+    },
+    {
+        date: "2026-02-24",
+        title: "La IA no es inteligente, es contextual",
+        org: "RED de Mujeres en Inteligencia Artificial",
+        location: "Online",
+        type: "charla",
+        desc: "Charla en las reuniones mensuales de la RED de Mujeres en IA.",
+        role: "Ponente"
+    },
+    {
+        date: "2026-02-24",
+        title: "B\u00fasquedas bibliogr\u00e1ficas en PubMed",
+        org: "Fundaci\u00f3n Jim\u00e9nez D\u00edaz",
+        location: "Online (Teams)",
+        type: "curso",
+        desc: "Curso de 2h para residentes (R1-R3) sobre b\u00fasquedas bibliogr\u00e1ficas en PubMed.",
+        role: "Docente"
+    },
+    {
+        date: "2026-02-26",
+        title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda",
+        org: "Hospital Gregorio Mara\u00f1\u00f3n / AstraZeneca",
+        location: "Madrid",
+        type: "curso",
+        desc: "Formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas de IA aplicadas a la investigaci\u00f3n cl\u00ednica.",
+        role: "Docente"
+    },
+
+    // ── MARZO 2026 ──
+    {
+        date: "2026-03-06",
+        title: "Mi documentalista artificial: automatizar flujos de trabajo con IA",
+        org: "COBDCV \u2014 VIII Jornada Valenciana de Documentaci\u00f3",
+        location: "Valencia (TEM)",
+        type: "charla",
+        types: ["charla", "jornada"],
+        desc: "Ponencia de 20 min sobre el sistema SAMBA: gesti\u00f3n de tareas, correos, tiempos y coordinaci\u00f3n con IA local.",
+        role: "Ponente"
+    },
+    {
+        date: "2026-03-11",
+        title: "Flujo de trabajo con IA \u2014 Arquitectura de contexto",
+        org: "IDARA (IIS Galicia Sur / SERGAS)",
+        location: "Pontevedra",
+        type: "charla",
+        desc: "Formaci\u00f3n de media jornada al equipo de investigaci\u00f3n IDARA. Parte te\u00f3rica: framework AI Workslop, documentaci\u00f3n zombie, 5 palancas de contexto.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-10",
+        title: "IA pr\u00e1ctica para la b\u00fasqueda y extracci\u00f3n de informaci\u00f3n cient\u00edfica (1/4)",
+        org: "REBISALUD",
+        location: "Online (Teams)",
+        type: "curso",
+        desc: "Sesi\u00f3n 1 de 4 (12:00-14:00). Introducci\u00f3n IA + PICO con LLM. Curso para bibliotecarios de redes de informaci\u00f3n cient\u00edfica.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-12",
+        title: "IA pr\u00e1ctica para la b\u00fasqueda y extracci\u00f3n de informaci\u00f3n cient\u00edfica (2/4)",
+        org: "REBISALUD",
+        location: "Online (Teams)",
+        type: "curso",
+        desc: "Sesi\u00f3n 2 de 4 (12:00-14:00). PubMed copiloto + OpenEvidence, Consensus, Undermind.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-24",
+        title: "IA pr\u00e1ctica para la b\u00fasqueda y extracci\u00f3n de informaci\u00f3n cient\u00edfica (3/4)",
+        org: "REBISALUD",
+        location: "Online (Teams)",
+        type: "curso",
+        desc: "Sesi\u00f3n 3 de 4 (12:00-14:00). Cribado y extracci\u00f3n con Elicit + s\u00edntesis verificable.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-26",
+        title: "IA pr\u00e1ctica para la b\u00fasqueda y extracci\u00f3n de informaci\u00f3n cient\u00edfica (4/4)",
+        org: "REBISALUD",
+        location: "Online (Teams)",
+        type: "curso",
+        desc: "Sesi\u00f3n 4 de 4 (12:00-14:00). Alfabetizaci\u00f3n IA + comunicaci\u00f3n con Gamma.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-19",
+        title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda \u2014 Zona norte",
+        org: "Hospital / AstraZeneca",
+        location: "Zona norte (por confirmar)",
+        type: "curso",
+        desc: "Segunda sesi\u00f3n de formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas IA para investigaci\u00f3n cl\u00ednica.",
+        role: "Docente"
+    },
+
+    // ── ABRIL 2026 ──
+    {
+        date: "2026-04-10",
+        title: "B\u00fasquedas bibliogr\u00e1ficas para el TFM",
+        org: "UAX-Quir\u00f3n \u2014 M\u00e1ster Urgencias y Emergencias",
+        location: "Presencial",
+        type: "master",
+        desc: "Clase sobre b\u00fasquedas bibliogr\u00e1ficas dentro del bloque de preparaci\u00f3n del Trabajo Fin de M\u00e1ster.",
+        role: "Docente"
+    },
+    {
+        date: "2026-04-21",
+        title: "Herramientas docentes basadas en IA (NotebookLM y otras)",
+        org: "BiblioSalud",
+        location: "Online",
+        type: "curso",
+        desc: "Sesi\u00f3n de 2h sobre herramientas de IA para formaci\u00f3n de usuarios en bibliotecas. T\u00edtulo y contenido pendientes de redefinir antes de abrir inscripci\u00f3n.",
+        role: "Docente"
+    },
+
+    // ── NOVIEMBRE 2026 ──
+    {
+        date: "2026-11-04",
+        title: "Taller IA para b\u00fasquedas bibliogr\u00e1ficas (pendiente confirmaci\u00f3n)",
+        org: "SEFAP \u2014 Congreso Nacional",
+        location: "Oviedo",
+        type: "taller",
+        types: ["taller", "congreso"],
+        desc: "Taller precongresual de 1h (40-50 personas). Perplexity, Research Rabbit, Elicit, OpenEvidence, ChatGPT. Pendiente confirmaci\u00f3n Comit\u00e9 Cient\u00edfico.",
+        role: "Docente"
+    }
+];
+
+const MONTHS_ES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const MONTHS_FULL = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const TYPE_LABELS = {
+    curso: "Curso", taller: "Taller", charla: "Charla", congreso: "Congreso",
+    master: "M\u00e1ster", mesa: "Mesa redonda", jornada: "Jornada"
+};
+
+const today = new Date();
+today.setHours(0,0,0,0);
+
+function parseDate(s) { const p = s.split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+
+function renderEvents(filter) {
+    const container = document.getElementById("events-container");
+    container.innerHTML = "";
+
+    const filtered = filter === "all" ? EVENTS : EVENTS.filter(e => e.type === filter || (e.types && e.types.includes(filter)));
+    const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today);
+    const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today);
+
+    if (upcoming.length) {
+        container.innerHTML += '<div class="section-title">Pr\u00f3ximos</div>';
+        upcoming.forEach(e => container.innerHTML += renderCard(e, false));
+    }
+    if (past.length) {
+        container.innerHTML += '<div class="section-title">Realizados</div>';
+        past.reverse().forEach(e => container.innerHTML += renderCard(e, true));
+        past.reverse();
+    }
+    if (!upcoming.length && !past.length) {
+        container.innerHTML = '<p style="text-align:center;color:#999;padding:3rem;">No hay eventos de este tipo.</p>';
+    }
+}
+
+function renderCard(e, isPast) {
+    const d = parseDate(e.date);
+    const day = d.getDate();
+    const mon = MONTHS_ES[d.getMonth()];
+    const year = d.getFullYear();
+    let dateStr = day + " " + MONTHS_FULL[d.getMonth()];
+    if (e.dateEnd) {
+        const d2 = parseDate(e.dateEnd);
+        if (d2.getMonth() === d.getMonth()) dateStr = day + "-" + d2.getDate() + " " + MONTHS_FULL[d.getMonth()];
+        else dateStr = day + " " + MONTHS_ES[d.getMonth()] + " \u2013 " + d2.getDate() + " " + MONTHS_ES[d2.getMonth()];
+    }
+
+    return `
+    <div class="event-card ${isPast ? 'past' : ''}" data-type="${e.type}">
+        <div class="event-date">
+            <span class="day">${day}</span>
+            <span class="month">${mon}</span>
+            <span class="year">${year}</span>
+        </div>
+        <div class="event-body">
+            <div style="margin-bottom:0.3rem">
+                ${e.types ? e.types.map(t => `<span class="badge badge-${t}">${TYPE_LABELS[t]}</span>`).join('') : `<span class="badge badge-${e.type}">${TYPE_LABELS[e.type]}</span>`}
+                ${e.role ? `<span style="font-size:0.6rem;color:#999;font-weight:600">${e.role}</span>` : ''}
+            </div>
+            <h3>${e.title}</h3>
+            <div class="event-meta">
+                <span>${e.org}</span>
+                <span>${e.location}</span>
+                ${e.dateEnd ? `<span>${dateStr}</span>` : ''}
+            </div>
+            <div class="event-desc">${e.desc}</div>
+        </div>
+    </div>`;
+}
+
+// Stats
+const orgs = new Set(EVENTS.map(e => e.org.split(" — ")[0].split(" / ")[0].trim()));
+document.getElementById("stat-total").textContent = EVENTS.length;
+document.getElementById("stat-upcoming").textContent = EVENTS.filter(e => parseDate(e.dateEnd || e.date) >= today).length;
+document.getElementById("stat-orgs").textContent = orgs.size;
+
+// Filters
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderEvents(btn.dataset.filter);
+    });
+});
+
+// Initial render
+renderEvents("all");
+</script>
+</body>
+</html>
