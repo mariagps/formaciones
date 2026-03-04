@@ -287,6 +287,17 @@
 
 <script>
 const EVENTS = [
+    // ── NOVIEMBRE 2025 ──
+    {
+        date: "2025-11-01",
+        title: "M\u00e1ster Universitat de Barcelona \u2014 Sesi\u00f3n IA",
+        org: "Universitat de Barcelona",
+        location: "Online",
+        type: "master",
+        desc: "Clase como docente invitada en el m\u00e1ster de la UB sobre inteligencia artificial aplicada.",
+        role: "Docente invitada"
+    },
+
     // ── ENERO 2026 ──
     {
         date: "2026-01-20",
@@ -306,15 +317,6 @@ const EVENTS = [
         type: "curso",
         desc: "Curso presencial de 2 d\u00edas sobre estrategias de publicaci\u00f3n y nuevas tecnolog\u00edas para investigadores. Co-impartido con Jos\u00e9 Mar\u00eda Mor\u00e1n (UEx).",
         role: "Docente"
-    },
-    {
-        date: "2025-11-01",
-        title: "M\u00e1ster Universitat de Barcelona \u2014 Sesi\u00f3n IA",
-        org: "Universitat de Barcelona",
-        location: "Online",
-        type: "master",
-        desc: "Clase como docente invitada en el m\u00e1ster de la UB sobre inteligencia artificial aplicada.",
-        role: "Docente invitada"
     },
 
     // ── FEBRERO 2026 ──
@@ -396,16 +398,6 @@ const EVENTS = [
 
     // ── MARZO 2026 ──
     {
-        date: "2026-03-24",
-        title: "Herramientas de IA para b\u00fasqueda bibliogr\u00e1fica y redacci\u00f3n cient\u00edfica",
-        org: "43\u00ba Congreso Sociedad Valenciana de Nefrolog\u00eda (43JSVN)",
-        location: "Online",
-        type: "mesa",
-        types: ["mesa", "congreso"],
-        desc: "Mesa redonda online (8:30-9:15). Reprogramada tras cancelaci\u00f3n del congreso presencial por DANA. Herramientas: OpenEvidence, Consensus, ChatGPT, Elicit, Deep Research, NotebookLM, Research Rabbit, Scite.ai.",
-        role: "Ponente"
-    },
-    {
         date: "2026-03-06",
         title: "Mi documentalista artificial: automatizar flujos de trabajo con IA",
         org: "COBDCV \u2014 VIII Jornada Valenciana de Documentaci\u00f3",
@@ -414,15 +406,6 @@ const EVENTS = [
         types: ["charla", "jornada"],
         desc: "Ponencia de 20 min sobre el sistema SAMBA: gesti\u00f3n de tareas, correos, tiempos y coordinaci\u00f3n con IA local.",
         role: "Ponente"
-    },
-    {
-        date: "2026-03-11",
-        title: "Flujo de trabajo con IA \u2014 Arquitectura de contexto",
-        org: "IDARA (IIS Galicia Sur / SERGAS)",
-        location: "Pontevedra",
-        type: "charla",
-        desc: "Formaci\u00f3n de media jornada al equipo de investigaci\u00f3n IDARA. Arquitectura de contexto, gobernanza del conocimiento y agentes de IA.",
-        role: "Docente"
     },
     {
         date: "2026-03-10",
@@ -434,6 +417,15 @@ const EVENTS = [
         role: "Docente"
     },
     {
+        date: "2026-03-11",
+        title: "Flujo de trabajo con IA \u2014 Arquitectura de contexto",
+        org: "IDARA (IIS Galicia Sur / SERGAS)",
+        location: "Pontevedra",
+        type: "charla",
+        desc: "Formaci\u00f3n de media jornada al equipo de investigaci\u00f3n IDARA. Arquitectura de contexto, gobernanza del conocimiento y agentes de IA.",
+        role: "Docente"
+    },
+    {
         date: "2026-03-12",
         title: "IA pr\u00e1ctica para la b\u00fasqueda y extracci\u00f3n de informaci\u00f3n cient\u00edfica (2/4)",
         org: "REBISALUD",
@@ -441,6 +433,43 @@ const EVENTS = [
         type: "curso",
         desc: "Sesi\u00f3n 2 de 4 (12:00-14:00). PubMed copiloto + OpenEvidence, Consensus, Undermind.",
         role: "Docente"
+    },
+    {
+        date: "2026-03-13",
+        title: "Actualizaci\u00f3n en b\u00fasquedas bibliogr\u00e1ficas (1/2)",
+        org: "Sociedad Espa\u00f1ola de Reumatolog\u00eda (SER)",
+        location: "Presencial",
+        type: "curso",
+        desc: "Formaci\u00f3n para rotantes de la SER (10:30-12:00, 1,5h). Primera sesi\u00f3n.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-19",
+        title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda \u2014 Zona norte",
+        org: "Hospital / AstraZeneca",
+        location: "Zona norte",
+        type: "curso",
+        desc: "Formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas de IA aplicadas a la investigaci\u00f3n cl\u00ednica.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-20",
+        title: "Actualizaci\u00f3n en b\u00fasquedas bibliogr\u00e1ficas (2/2)",
+        org: "Sociedad Espa\u00f1ola de Reumatolog\u00eda (SER)",
+        location: "Presencial",
+        type: "curso",
+        desc: "Formaci\u00f3n para rotantes de la SER (10:30-12:00, 1,5h). Segunda sesi\u00f3n.",
+        role: "Docente"
+    },
+    {
+        date: "2026-03-24",
+        title: "Herramientas de IA para b\u00fasqueda bibliogr\u00e1fica y redacci\u00f3n cient\u00edfica",
+        org: "43\u00ba Congreso Sociedad Valenciana de Nefrolog\u00eda (43JSVN)",
+        location: "Online",
+        type: "mesa",
+        types: ["mesa", "congreso"],
+        desc: "Mesa redonda online (8:30-9:15). Reprogramada tras cancelaci\u00f3n del congreso presencial por DANA. Herramientas: OpenEvidence, Consensus, ChatGPT, Elicit, Deep Research, NotebookLM, Research Rabbit, Scite.ai.",
+        role: "Ponente"
     },
     {
         date: "2026-03-24",
@@ -458,33 +487,6 @@ const EVENTS = [
         location: "Online (Teams)",
         type: "curso",
         desc: "Sesi\u00f3n 4 de 4 (12:00-14:00). Alfabetizaci\u00f3n IA + comunicaci\u00f3n con Gamma.",
-        role: "Docente"
-    },
-    {
-        date: "2026-03-13",
-        title: "Actualizaci\u00f3n en b\u00fasquedas bibliogr\u00e1ficas (1/2)",
-        org: "Sociedad Espa\u00f1ola de Reumatolog\u00eda (SER)",
-        location: "Presencial",
-        type: "curso",
-        desc: "Formaci\u00f3n para rotantes de la SER (10:30-12:00, 1,5h). Primera sesi\u00f3n.",
-        role: "Docente"
-    },
-    {
-        date: "2026-03-20",
-        title: "Actualizaci\u00f3n en b\u00fasquedas bibliogr\u00e1ficas (2/2)",
-        org: "Sociedad Espa\u00f1ola de Reumatolog\u00eda (SER)",
-        location: "Presencial",
-        type: "curso",
-        desc: "Formaci\u00f3n para rotantes de la SER (10:30-12:00, 1,5h). Segunda sesi\u00f3n.",
-        role: "Docente"
-    },
-    {
-        date: "2026-03-19",
-        title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda \u2014 Zona norte",
-        org: "Hospital / AstraZeneca",
-        location: "Zona norte (por confirmar)",
-        type: "curso",
-        desc: "Segunda sesi\u00f3n de formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas IA para investigaci\u00f3n cl\u00ednica.",
         role: "Docente"
     },
 
