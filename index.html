@@ -242,10 +242,7 @@
     </style>
 </head>
 <body>
-<script>
-(function(){var p=prompt("Contraseña:");if(p!=="GdbpdimelifE2026"){document.body.innerHTML="<p style='text-align:center;margin-top:40vh;font-family:Montserrat,sans-serif;color:#999'>Acceso denegado</p>";throw"";}})();
-</script>
-
+<div id="app" style="display:none">
 <div class="header">
     <h1><a href="https://www.linkedin.com/in/mariagps/" target="_blank">Mar&iacute;a Garc&iacute;a-Puente</a></h1>
     <div class="subtitle">Especialista en gesti&oacute;n del conocimiento e IA &middot; Directora de AlterBiblio &middot; Creadora de SAMBA</div>
@@ -288,7 +285,18 @@
     <a href="mailto:maria@alterbiblio.com">maria@alterbiblio.com</a> &middot;
     <a href="https://alterbiblio.com" target="_blank">AlterBiblio</a>
 </div>
+</div><!-- /app -->
 
+<script>
+(function(){
+    var p=prompt("Contraseña:");
+    if(p!=="GdbpdimelifE2026"){
+        document.body.innerHTML="<p style='text-align:center;margin-top:40vh;font-family:Montserrat,sans-serif;color:#999'>Acceso denegado</p>";
+        return;
+    }
+    document.getElementById("app").style.display="";
+})();
+</script>
 <script>
 const EVENTS = [
     // ── NOVIEMBRE 2025 ──
