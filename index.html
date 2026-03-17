@@ -230,6 +230,233 @@
             text-decoration: none;
         }
 
+        /* ── View toggle ── */
+        .view-toggle {
+            display: inline-flex;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+        .view-btn {
+            padding: 0.4rem 1rem;
+            border: none;
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .view-btn + .view-btn { border-left: 2px solid #ddd; }
+        .view-btn.active {
+            background: var(--blue);
+            color: white;
+        }
+
+        /* ── Calendar ── */
+        .calendar-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .calendar-nav button {
+            background: none;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .calendar-nav button:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+        .calendar-nav .cal-month-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            min-width: 160px;
+            text-align: center;
+            text-transform: capitalize;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+        }
+        .cal-weekday {
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            padding: 0.4rem 0;
+        }
+        .cal-day {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 0.3rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--card-bg);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            border: 1px solid #eee;
+            min-height: 50px;
+        }
+        .cal-day.empty {
+            background: transparent;
+            border-color: transparent;
+        }
+        .cal-day.today {
+            border: 2px solid var(--blue);
+        }
+        .cal-day .day-number {
+            position: relative;
+            z-index: 2;
+            font-size: 0.7rem;
+        }
+        .cal-day .day-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 7px;
+        }
+        .cal-day.has-events .day-number {
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .cal-day .cal-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: white;
+            padding: 0.5rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            white-space: nowrap;
+            z-index: 200;
+            line-height: 1.4;
+            max-width: 250px;
+            white-space: normal;
+        }
+        .cal-day .cal-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--text);
+        }
+        .cal-day:hover .cal-tooltip {
+            display: block;
+        }
+        .cal-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-top: 1rem;
+            padding: 0.8rem;
+        }
+        .cal-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        .cal-legend-swatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 600px) {
+            .cal-day { min-height: 36px; font-size: 0.6rem; }
+            .cal-day .day-number { font-size: 0.6rem; }
+            .calendar-nav .cal-month-label { font-size: 0.85rem; min-width: 120px; }
+        }
+
+        /* ── Date filters ── */
+        .date-filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        .date-filters label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .date-filters input[type="month"] {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            color: var(--text);
+            background: white;
+            cursor: pointer;
+        }
+        .date-filters input[type="month"]:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+        .date-filter-reset {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--blue);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0.3rem 0.4rem;
+        }
+        .date-filter-reset:hover {
+            color: var(--blue-dark);
+        }
+
         /* ── Hidden ── */
         .hidden { display: none !important; }
 
@@ -267,6 +494,10 @@
 </div>
 
 <div class="filters">
+    <div class="view-toggle">
+        <button class="view-btn active" data-view="list">Lista</button>
+        <button class="view-btn" data-view="calendar">Calendario</button>
+    </div>
     <button class="filter-btn active" data-filter="all">Todos</button>
     <button class="filter-btn" data-filter="curso">Cursos</button>
     <button class="filter-btn" data-filter="taller">Talleres</button>
@@ -277,7 +508,18 @@
     <button class="filter-btn" data-filter="jornada">Jornadas</button>
 </div>
 
+<div class="date-filters">
+    <label>Desde</label>
+    <input type="month" id="date-from">
+    <label>Hasta</label>
+    <input type="month" id="date-to">
+    <button class="date-filter-reset" id="date-reset">Limpiar fechas</button>
+</div>
+
 <div class="main" id="events-container">
+</div>
+
+<div class="calendar-container" id="calendar-container" style="display:none">
 </div>
 
 <div class="footer">
@@ -584,7 +826,29 @@ const EVENTS = [
         hours: 8
     },
 
+    // ── ABRIL 2026 ──
+    {
+        date: "2026-04-17",
+        dateEnd: "2026-04-18",
+        title: "IA en b\u00fasqueda bibliogr\u00e1fica y redacci\u00f3n cient\u00edfica",
+        org: "Fundaci\u00f3n C\u00e1ntabra de Hematolog\u00eda y Hemoterapia (FCHH)",
+        location: "Solares (Cantabria)",
+        type: "jornada",
+        desc: "Ponencia en la III Reuni\u00f3n FCHH (~40 hemat\u00f3logos). IA aplicada a la investigaci\u00f3n: b\u00fasquedas bibliogr\u00e1ficas, redacci\u00f3n cient\u00edfica y pensamiento cr\u00edtico.",
+        role: "Ponente"
+    },
+
     // ── MAYO 2026 ──
+    {
+        date: "2026-05-12",
+        title: "M\u00e1ster Medical Affairs CEU-AMIFE \u2014 M\u00f3dulo Informaci\u00f3n M\u00e9dica",
+        org: "Universidad CEU San Pablo / AMIFE",
+        location: "Madrid",
+        type: "master",
+        desc: "Clase presencial de 3h en el m\u00f3dulo de Informaci\u00f3n M\u00e9dica del M\u00e1ster en Medical Affairs.",
+        role: "Docente",
+        hours: 3
+    },
     {
         date: "2026-05-08",
         title: "Jornada GEENDIAB",
@@ -632,13 +896,30 @@ today.setHours(0,0,0,0);
 
 function parseDate(s) { const p = s.split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
 
+let currentFilter = "all";
+let dateFrom = null;
+let dateTo = null;
+
+function applyDateFilter(events) {
+    return events.filter(e => {
+        const d = parseDate(e.date);
+        if (dateFrom && d < dateFrom) return false;
+        if (dateTo) {
+            const toEnd = new Date(dateTo.getFullYear(), dateTo.getMonth() + 1, 0);
+            if (d > toEnd) return false;
+        }
+        return true;
+    });
+}
+
 function renderEvents(filter) {
     const container = document.getElementById("events-container");
     container.innerHTML = "";
 
-    const filtered = filter === "all" ? EVENTS : EVENTS.filter(e => e.type === filter || (e.types && e.types.includes(filter)));
-    const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today);
-    const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today);
+    let filtered = filter === "all" ? EVENTS : EVENTS.filter(e => e.type === filter || (e.types && e.types.includes(filter)));
+    filtered = applyDateFilter(filtered);
+    const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
+    const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
     if (upcoming.length) {
         container.innerHTML += '<div class="section-title">Pr\u00f3ximos</div>';
@@ -711,14 +992,200 @@ const totalHours = EVENTS.reduce((sum, e) => sum + (e.hours || 0), 0);
 document.getElementById("stat-hours").textContent = totalHours % 1 === 0 ? totalHours : totalHours.toFixed(1);
 document.getElementById("stat-orgs").textContent = orgs.size;
 
-// Filters
+// Type filters
 document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        renderEvents(btn.dataset.filter);
+        currentFilter = btn.dataset.filter;
+        renderEvents(currentFilter);
     });
 });
+
+// Date filters
+function parseMonthInput(val) {
+    if (!val || val.indexOf("-") === -1) return null;
+    var parts = val.split("-");
+    if (parts.length !== 2 || isNaN(+parts[0]) || isNaN(+parts[1])) return null;
+    return new Date(+parts[0], +parts[1] - 1, 1);
+}
+document.getElementById("date-from").addEventListener("change", function() {
+    dateFrom = parseMonthInput(this.value);
+    renderEvents(currentFilter);
+});
+document.getElementById("date-to").addEventListener("change", function() {
+    dateTo = parseMonthInput(this.value);
+    renderEvents(currentFilter);
+});
+document.getElementById("date-reset").addEventListener("click", function() {
+    document.getElementById("date-from").value = "";
+    document.getElementById("date-to").value = "";
+    dateFrom = null;
+    dateTo = null;
+    renderEvents(currentFilter);
+});
+
+// ── Calendar view ──
+const TYPE_COLORS = {
+    curso: '#1a6bab',
+    taller: '#38b6a0',
+    charla: '#e67e22',
+    congreso: '#8e44ad',
+    master: '#e84393',
+    mesa: '#c0392b',
+    jornada: '#6dba3a'
+};
+
+let calYear = 2026;
+let calMonth = 2; // March (0-indexed)
+let currentView = 'list';
+
+// Find first month with events
+const allDates = EVENTS.map(e => parseDate(e.date)).sort((a,b) => a-b);
+if (allDates.length) {
+    // Start at current month
+    const now = new Date();
+    calYear = now.getFullYear();
+    calMonth = now.getMonth();
+}
+
+function getEventsForDay(year, month, day) {
+    const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+    return EVENTS.filter(e => {
+        const start = e.date;
+        const end = e.dateEnd || e.date;
+        if (currentFilter !== 'all') {
+            if (e.type !== currentFilter && !(e.types && e.types.includes(currentFilter))) return false;
+        }
+        return dateStr >= start && dateStr <= end;
+    });
+}
+
+function renderCalendar() {
+    const container = document.getElementById('calendar-container');
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const firstDayOfWeek = (new Date(calYear, calMonth, 1).getDay() + 6) % 7; // Monday = 0
+    const monthLabel = MONTHS_FULL[calMonth].charAt(0).toUpperCase() + MONTHS_FULL[calMonth].slice(1) + ' ' + calYear;
+
+    const todayDate = new Date();
+    todayDate.setHours(0,0,0,0);
+
+    let html = '<div class="calendar-nav">';
+    html += '<button id="cal-prev">\u2039</button>';
+    html += '<span class="cal-month-label">' + monthLabel + '</span>';
+    html += '<button id="cal-next">\u203a</button>';
+    html += '</div>';
+
+    html += '<div class="calendar-grid">';
+    const weekdays = ['Lun','Mar','Mi\u00e9','Jue','Vie','S\u00e1b','Dom'];
+    weekdays.forEach(d => { html += '<div class="cal-weekday">' + d + '</div>'; });
+
+    // Empty cells before first day
+    for (let i = 0; i < firstDayOfWeek; i++) {
+        html += '<div class="cal-day empty"></div>';
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayEvents = getEventsForDay(calYear, calMonth, day);
+        const isToday = (calYear === todayDate.getFullYear() && calMonth === todayDate.getMonth() && day === todayDate.getDate());
+        const hasEvents = dayEvents.length > 0;
+
+        let classes = 'cal-day';
+        if (isToday) classes += ' today';
+        if (hasEvents) classes += ' has-events';
+
+        html += '<div class="' + classes + '">';
+
+        // Background color(s)
+        if (dayEvents.length === 1) {
+            const color = TYPE_COLORS[dayEvents[0].type] || '#999';
+            html += '<div class="day-bg" style="background:' + color + ';opacity:0.85"></div>';
+        } else if (dayEvents.length >= 2) {
+            // Split: collect unique type colors
+            const colors = [];
+            const seen = {};
+            dayEvents.forEach(ev => {
+                const c = TYPE_COLORS[ev.type] || '#999';
+                if (!seen[c]) { seen[c] = true; colors.push(c); }
+            });
+            if (colors.length === 1) {
+                html += '<div class="day-bg" style="background:' + colors[0] + ';opacity:0.85"></div>';
+            } else {
+                // Build gradient with equal stops
+                const pct = 100 / colors.length;
+                const stops = colors.map((c, i) => c + ' ' + (i * pct) + '%, ' + c + ' ' + ((i+1) * pct) + '%').join(', ');
+                html += '<div class="day-bg" style="background:linear-gradient(135deg, ' + stops + ');opacity:0.85"></div>';
+            }
+        }
+
+        html += '<span class="day-number">' + day + '</span>';
+
+        // Tooltip
+        if (hasEvents) {
+            html += '<div class="cal-tooltip">';
+            dayEvents.forEach(ev => {
+                html += '<div><strong>' + TYPE_LABELS[ev.type] + ':</strong> ' + ev.title + '</div>';
+            });
+            html += '</div>';
+        }
+
+        html += '</div>';
+    }
+
+    html += '</div>';
+
+    // Legend
+    html += '<div class="cal-legend">';
+    Object.keys(TYPE_LABELS).forEach(type => {
+        html += '<div class="cal-legend-item"><div class="cal-legend-swatch" style="background:' + TYPE_COLORS[type] + '"></div>' + TYPE_LABELS[type] + '</div>';
+    });
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    // Nav buttons
+    document.getElementById('cal-prev').addEventListener('click', function() {
+        calMonth--;
+        if (calMonth < 0) { calMonth = 11; calYear--; }
+        renderCalendar();
+    });
+    document.getElementById('cal-next').addEventListener('click', function() {
+        calMonth++;
+        if (calMonth > 11) { calMonth = 0; calYear++; }
+        renderCalendar();
+    });
+}
+
+// View toggle
+document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentView = this.dataset.view;
+        const listEl = document.getElementById('events-container');
+        const calEl = document.getElementById('calendar-container');
+        const dateFilters = document.querySelector('.date-filters');
+        if (currentView === 'list') {
+            listEl.style.display = '';
+            calEl.style.display = 'none';
+            if (dateFilters) dateFilters.style.display = '';
+            renderEvents(currentFilter);
+        } else {
+            listEl.style.display = 'none';
+            calEl.style.display = '';
+            if (dateFilters) dateFilters.style.display = 'none';
+            renderCalendar();
+        }
+    });
+});
+
+// Re-render calendar when type filter changes (update existing listener)
+var origFilterClick = function(btn) {
+    btn.addEventListener('click', function() {
+        if (currentView === 'calendar') renderCalendar();
+    });
+};
+document.querySelectorAll('.filter-btn').forEach(origFilterClick);
 
 // Initial render
 renderEvents("all");
