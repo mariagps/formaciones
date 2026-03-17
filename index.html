@@ -1262,6 +1262,17 @@ function renderCalendar() {
 
     container.innerHTML = html;
 
+    // Update summary with events of this month
+    var monthEvents = [];
+    var seenIds = {};
+    for (var day = 1; day <= daysInMonth; day++) {
+        getEventsForDay(calYear, calMonth, day).forEach(function(ev) {
+            var id = ev.date + ev.title;
+            if (!seenIds[id]) { seenIds[id] = true; monthEvents.push(ev); }
+        });
+    }
+    renderSummary(monthEvents);
+
     // Nav buttons
     document.getElementById('cal-prev').addEventListener('click', function() {
         calMonth--;
