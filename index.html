@@ -382,6 +382,50 @@
         .cal-day:hover .cal-tooltip {
             display: block;
         }
+        .cal-detail-panel {
+            margin-top: 1rem;
+            padding: 1rem 1.2rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--blue);
+        }
+        .cal-detail-panel .cal-detail-date {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .cal-detail-panel .cal-detail-event {
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid #eee;
+        }
+        .cal-detail-panel .cal-detail-event:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .cal-detail-panel .cal-detail-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+        .cal-detail-panel .cal-detail-meta {
+            font-size: 0.72rem;
+            color: var(--text-light);
+        }
+        .cal-detail-panel .cal-detail-badge {
+            display: inline-block;
+            padding: 0.1rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-right: 0.3rem;
+        }
         .cal-legend {
             display: flex;
             flex-wrap: wrap;
@@ -1134,6 +1178,9 @@ function renderCalendar() {
 
     html += '</div>';
 
+    // Detail panel (shown on click)
+    html += '<div id="cal-detail" class="cal-detail-panel" style="display:none"></div>';
+
     // Legend
     html += '<div class="cal-legend">';
     Object.keys(TYPE_LABELS).forEach(type => {
@@ -1153,6 +1200,37 @@ function renderCalendar() {
         calMonth++;
         if (calMonth > 11) { calMonth = 0; calYear++; }
         renderCalendar();
+    });
+
+    // Click on day to show details below
+    document.querySelectorAll('.cal-day.has-events').forEach(function(dayEl) {
+        dayEl.style.cursor = 'pointer';
+        dayEl.addEventListener('click', function() {
+            // Remove highlight from other days
+            document.querySelectorAll('.cal-day.selected').forEach(function(el) { el.classList.remove('selected'); });
+            dayEl.classList.add('selected');
+
+            var dayNum = parseInt(dayEl.querySelector('.day-number').textContent);
+            var evts = getEventsForDay(calYear, calMonth, dayNum);
+            var panel = document.getElementById('cal-detail');
+            var dayLabel = dayNum + ' de ' + MONTHS_FULL[calMonth] + ' ' + calYear;
+
+            var h = '<div class="cal-detail-date">' + dayLabel + '</div>';
+            evts.forEach(function(ev) {
+                var badgeClass = 'badge-' + ev.type;
+                h += '<div class="cal-detail-event">';
+                h += '<div><span class="cal-detail-badge ' + badgeClass + '">' + TYPE_LABELS[ev.type] + '</span>';
+                if (ev.role) h += '<span style="font-size:0.6rem;color:#999;font-weight:600">' + ev.role + '</span>';
+                h += '</div>';
+                h += '<div class="cal-detail-title">' + ev.title + '</div>';
+                h += '<div class="cal-detail-meta">' + ev.org + ' \u00b7 ' + ev.location + '</div>';
+                if (ev.desc) h += '<div class="cal-detail-meta" style="margin-top:0.2rem;color:var(--text)">' + ev.desc + '</div>';
+                h += '</div>';
+            });
+            panel.innerHTML = h;
+            panel.style.display = '';
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
     });
 }
 
