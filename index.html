@@ -501,6 +501,49 @@
             color: var(--blue-dark);
         }
 
+        /* ── Summary bar ── */
+        .filter-summary {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            padding: 0.6rem 2rem;
+            background: var(--blue-light);
+            border-bottom: 1px solid #d0e8f5;
+        }
+        .filter-summary-item {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .filter-summary-number {
+            font-weight: 800;
+            color: var(--blue);
+        }
+
+        /* ── Collapsible past ── */
+        .past-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        .past-toggle .toggle-arrow {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            transition: transform 0.2s;
+        }
+        .past-toggle.open .toggle-arrow {
+            transform: rotate(90deg);
+        }
+        .past-content {
+            display: none;
+        }
+        .past-content.open {
+            display: block;
+        }
+
         /* ── Hidden ── */
         .hidden { display: none !important; }
 
@@ -559,6 +602,8 @@
     <input type="month" id="date-to">
     <button class="date-filter-reset" id="date-reset">Limpiar fechas</button>
 </div>
+
+<div class="filter-summary" id="filter-summary"></div>
 
 <div class="main" id="events-container">
 </div>
@@ -956,6 +1001,23 @@ function applyDateFilter(events) {
     });
 }
 
+function renderSummary(events) {
+    const summary = document.getElementById("filter-summary");
+    if (!summary) return;
+    const counts = {};
+    events.forEach(e => {
+        const t = e.type;
+        counts[t] = (counts[t] || 0) + 1;
+    });
+    let html = '<span class="filter-summary-item"><span class="filter-summary-number">' + events.length + '</span> total</span>';
+    Object.keys(TYPE_LABELS).forEach(t => {
+        if (counts[t]) {
+            html += '<span class="filter-summary-item"><span class="filter-summary-number">' + counts[t] + '</span> ' + TYPE_LABELS[t].toLowerCase() + (counts[t] > 1 && !TYPE_LABELS[t].endsWith('s') ? 's' : '') + '</span>';
+        }
+    });
+    summary.innerHTML = html;
+}
+
 function renderEvents(filter) {
     const container = document.getElementById("events-container");
     container.innerHTML = "";
@@ -965,15 +1027,25 @@ function renderEvents(filter) {
     const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
     const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
+    // Summary
+    renderSummary(filtered);
+
     if (upcoming.length) {
-        container.innerHTML += '<div class="section-title">Pr\u00f3ximos</div>';
+        container.innerHTML += '<div class="section-title">Pr\u00f3ximos (' + upcoming.length + ')</div>';
         renderWithMonths(upcoming, false, container);
     }
     if (past.length) {
-        container.innerHTML += '<div class="section-title">Realizados</div>';
+        container.innerHTML += '<div class="section-title past-toggle" id="past-toggle">Realizados (' + past.length + ') <span class="toggle-arrow">\u25b6</span></div>';
+        container.innerHTML += '<div class="past-content" id="past-content"></div>';
         past.reverse();
-        renderWithMonths(past, true, container);
+        var pastContainer = document.getElementById("past-content");
+        renderWithMonths(past, true, pastContainer);
         past.reverse();
+
+        document.getElementById("past-toggle").addEventListener("click", function() {
+            this.classList.toggle("open");
+            document.getElementById("past-content").classList.toggle("open");
+        });
     }
     if (!upcoming.length && !past.length) {
         container.innerHTML = '<p style="text-align:center;color:#999;padding:3rem;">No hay eventos de este tipo.</p>';
