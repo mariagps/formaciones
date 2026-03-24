@@ -454,6 +454,29 @@
             .calendar-nav .cal-month-label { font-size: 0.85rem; min-width: 120px; }
         }
 
+        /* ── Role filters ── */
+        .role-filters {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.6rem 2rem;
+            background: white;
+        }
+        .role-btn {
+            padding: 0.3rem 0.8rem;
+            border: 1.5px solid #ddd;
+            border-radius: 15px;
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .role-btn:hover { border-color: var(--teal); color: var(--teal); }
+        .role-btn.active { background: var(--teal); color: white; border-color: var(--teal); }
+
         /* ── Date filters ── */
         .date-filters {
             display: flex;
@@ -597,6 +620,13 @@
     <button class="filter-btn" data-filter="congreso">Congresos</button>
     <button class="filter-btn" data-filter="mesa">Mesas redondas</button>
     <button class="filter-btn" data-filter="jornada">Jornadas</button>
+</div>
+
+<div class="role-filters">
+    <button class="role-btn active" data-role="all">Todos los roles</button>
+    <button class="role-btn" data-role="impartido">Impartidos</button>
+    <button class="role-btn" data-role="organizado">Organizados</button>
+    <button class="role-btn" data-role="asistente">Asistente</button>
 </div>
 
 <div class="date-filters">
@@ -1027,6 +1057,9 @@ function renderEvents(filter) {
     container.innerHTML = "";
 
     let filtered = filter === "all" ? EVENTS : EVENTS.filter(e => e.type === filter || (e.types && e.types.includes(filter)));
+    if (currentRoleFilter === "impartido") filtered = filtered.filter(e => ROLES_IMPARTIDO.includes(e.role));
+    else if (currentRoleFilter === "organizado") filtered = filtered.filter(e => ROLES_ORGANIZADO.includes(e.role));
+    else if (currentRoleFilter === "asistente") filtered = filtered.filter(e => e.role === "Asistente");
     filtered = applyDateFilter(filtered);
     const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
     const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
@@ -1118,12 +1151,25 @@ function updateStats(evts) {
 }
 updateStats(EVENTS);
 
+// Role filter state
+var currentRoleFilter = "all";
+
 // Type filters
 document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentFilter = btn.dataset.filter;
+        renderEvents(currentFilter);
+    });
+});
+
+// Role filters
+document.querySelectorAll(".role-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentRoleFilter = btn.dataset.role;
         renderEvents(currentFilter);
     });
 });
