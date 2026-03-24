@@ -574,6 +574,10 @@
             <span class="stat-label">Horas impartidas</span>
         </div>
         <div class="stat">
+            <span class="stat-number" id="stat-hours-org">0</span>
+            <span class="stat-label">Horas organizadas</span>
+        </div>
+        <div class="stat">
             <span class="stat-number" id="stat-orgs">0</span>
             <span class="stat-label">Organizaciones</span>
         </div>
@@ -679,7 +683,7 @@ const EVENTS = [
     {
         date: "2026-02-12",
         title: "Entrevista con Juan Turnes",
-        org: "IDARA (IIS Galicia Sur)",
+        org: "IDARA (IIS Galicia Sur / SERGAS)",
         location: "Online",
         type: "charla",
         desc: "Entrevista grabada para la serie de v\u00eddeos de IDARA. Tema: flujo de trabajo con IA (SAMBA, CCO).",
@@ -688,7 +692,7 @@ const EVENTS = [
     {
         date: "2026-02-14",
         title: "Herramientas de IA para b\u00fasqueda bibliogr\u00e1fica y redacci\u00f3n cient\u00edfica",
-        org: "43\u00ba Congreso Sociedad Valenciana de Nefrolog\u00eda",
+        org: "Sociedad Valenciana de Nefrolog\u00eda (43JSVN)",
         location: "Castell\u00f3n",
         type: "mesa",
         types: ["mesa", "congreso"],
@@ -728,7 +732,7 @@ const EVENTS = [
     {
         date: "2026-02-24",
         title: "B\u00fasquedas bibliogr\u00e1ficas en PubMed",
-        org: "Fundaci\u00f3n Jim\u00e9nez D\u00edaz",
+        org: "Hospital Universitario Fundaci\u00f3n Jim\u00e9nez D\u00edaz",
         location: "Online (Teams)",
         type: "curso",
         desc: "Curso de 2h para residentes (R1-R3) sobre b\u00fasquedas bibliogr\u00e1ficas en PubMed.",
@@ -738,7 +742,7 @@ const EVENTS = [
     {
         date: "2026-02-26",
         title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda",
-        org: "Hospital Gregorio Mara\u00f1\u00f3n / AstraZeneca",
+        org: "Hospital Gregorio Mara\u00f1\u00f3n \u2014 Colabora AstraZeneca",
         location: "Madrid",
         type: "curso",
         desc: "Formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas de IA aplicadas a la investigaci\u00f3n cl\u00ednica.",
@@ -750,7 +754,7 @@ const EVENTS = [
     {
         date: "2026-03-06",
         title: "Mi documentalista artificial: automatizar flujos de trabajo con IA",
-        org: "COBDCV \u2014 VIII Jornada Valenciana de Documentaci\u00f3",
+        org: "Col\u00b7legi Oficial de Bibliotecaris i Documentalistes de la Comunitat Valenciana (COBDCV)",
         location: "Valencia (TEM)",
         type: "charla",
         types: ["charla", "jornada"],
@@ -801,7 +805,7 @@ const EVENTS = [
     {
         date: "2026-03-19",
         title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda \u2014 Zona norte",
-        org: "Hospital / AstraZeneca",
+        org: "Hospital Gregorio Mara\u00f1\u00f3n \u2014 Colabora AstraZeneca",
         location: "Zona norte",
         type: "curso",
         desc: "Formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas de IA aplicadas a la investigaci\u00f3n cl\u00ednica.",
@@ -821,7 +825,7 @@ const EVENTS = [
     {
         date: "2026-03-24",
         title: "Herramientas de IA para b\u00fasqueda bibliogr\u00e1fica y redacci\u00f3n cient\u00edfica",
-        org: "43\u00ba Congreso Sociedad Valenciana de Nefrolog\u00eda (43JSVN)",
+        org: "Sociedad Valenciana de Nefrolog\u00eda (43JSVN)",
         location: "Online",
         type: "mesa",
         types: ["mesa", "congreso"],
@@ -854,7 +858,7 @@ const EVENTS = [
     {
         date: "2026-04-10",
         title: "B\u00fasquedas bibliogr\u00e1ficas para el TFM",
-        org: "UAX-Quir\u00f3n \u2014 M\u00e1ster Urgencias y Emergencias",
+        org: "QuironSalud / UAX \u2014 M\u00e1ster Urgencias y Emergencias",
         location: "Presencial",
         type: "master",
         desc: "Clase sobre b\u00fasquedas bibliogr\u00e1ficas dentro del bloque de preparaci\u00f3n del Trabajo Fin de M\u00e1ster.",
@@ -874,7 +878,7 @@ const EVENTS = [
     {
         date: "2026-04-21",
         title: "IA pr\u00e1ctica para investigaci\u00f3n en nefrolog\u00eda \u2014 La Princesa",
-        org: "Hospital de La Princesa / SEN",
+        org: "Hospital Universitario La Princesa",
         location: "Madrid",
         type: "curso",
         desc: "Formaci\u00f3n presencial de 4h para nefr\u00f3logos. Herramientas de IA aplicadas a la investigaci\u00f3n cl\u00ednica. Pendiente confirmaci\u00f3n financiaci\u00f3n.",
@@ -953,7 +957,7 @@ const EVENTS = [
     {
         date: "2026-11-04",
         title: "Taller IA para b\u00fasquedas bibliogr\u00e1ficas",
-        org: "SEFAP \u2014 Congreso Nacional",
+        org: "SEFAP",
         location: "Oviedo",
         type: "taller",
         types: ["taller", "congreso"],
@@ -1009,7 +1013,7 @@ function renderSummary(events) {
         const t = e.type;
         counts[t] = (counts[t] || 0) + 1;
     });
-    let html = '<span class="filter-summary-item"><span class="filter-summary-number">' + events.length + '</span> total</span>';
+    let html = '<span class="filter-summary-item"><span class="filter-summary-number">' + events.length + '</span> total:</span>';
     Object.keys(TYPE_LABELS).forEach(t => {
         if (counts[t]) {
             html += '<span class="filter-summary-item"><span class="filter-summary-number">' + counts[t] + '</span> ' + TYPE_LABELS[t].toLowerCase() + (counts[t] > 1 && !TYPE_LABELS[t].endsWith('s') ? 's' : '') + '</span>';
@@ -1026,6 +1030,9 @@ function renderEvents(filter) {
     filtered = applyDateFilter(filtered);
     const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
     const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
+
+    // Update header stats with filtered data
+    updateStats(filtered);
 
     // Summary
     renderSummary(filtered);
@@ -1101,12 +1108,18 @@ function renderCard(e, isPast) {
 }
 
 // Stats
-const orgs = new Set(EVENTS.map(e => e.org.split(" — ")[0].split(" / ")[0].trim()));
-document.getElementById("stat-total").textContent = EVENTS.length;
-document.getElementById("stat-upcoming").textContent = EVENTS.filter(e => parseDate(e.dateEnd || e.date) >= today).length;
-const totalHours = EVENTS.reduce((sum, e) => sum + (e.hours || 0), 0);
-document.getElementById("stat-hours").textContent = totalHours % 1 === 0 ? totalHours : totalHours.toFixed(1);
-document.getElementById("stat-orgs").textContent = orgs.size;
+const ROLES_IMPARTIDO = ["Docente", "Docente invitada", "Ponente", "Facilitadora", "Entrevistada"];
+const ROLES_ORGANIZADO = ["Organizadora"];
+function fmtHours(h) { return h % 1 === 0 ? h : h.toFixed(1); }
+function updateStats(evts) {
+    const o = new Set(evts.map(e => e.org.split(" — ")[0].split(" / ")[0].trim()));
+    document.getElementById("stat-total").textContent = evts.length;
+    document.getElementById("stat-upcoming").textContent = evts.filter(e => parseDate(e.dateEnd || e.date) >= today).length;
+    document.getElementById("stat-hours").textContent = fmtHours(evts.filter(e => ROLES_IMPARTIDO.includes(e.role)).reduce((s, e) => s + (e.hours || 0), 0));
+    document.getElementById("stat-hours-org").textContent = fmtHours(evts.filter(e => ROLES_ORGANIZADO.includes(e.role)).reduce((s, e) => s + (e.hours || 0), 0));
+    document.getElementById("stat-orgs").textContent = o.size;
+}
+updateStats(EVENTS);
 
 // Type filters
 document.querySelectorAll(".filter-btn").forEach(btn => {
