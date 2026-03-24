@@ -1031,9 +1031,6 @@ function renderEvents(filter) {
     const upcoming = filtered.filter(e => parseDate(e.dateEnd || e.date) >= today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
     const past = filtered.filter(e => parseDate(e.dateEnd || e.date) < today).sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
-    // Update header stats with filtered data
-    updateStats(filtered);
-
     // Summary
     renderSummary(filtered);
 
